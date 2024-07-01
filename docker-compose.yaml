@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mylogin
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+  web:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=mylogin
+      - DB_USER=postgres
+      - DB_PASSWORD=root
+      - DB_PORT=5432
+
+volumes:
+  db-data:

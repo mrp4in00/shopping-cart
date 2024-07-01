@@ -31,7 +31,15 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
               </div>
               <button type="submit" class="btn btn-primary">Login</button>
+              
             </form>
+            
+              {% if errormio %}
+                <div class="alert alert-danger" role="alert">
+                  {{ errormio }}
+                </div>
+              {% endif %}
+
           </div>
         </div>
       </div>
